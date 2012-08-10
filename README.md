@@ -2,6 +2,12 @@ Licence
 ========
 Improve yes, but not allowed for commercial use. 
 
+1.2 "Late Night"
+========
+
+- Added Console.java due to GUI output (not ready)
+- Connection to any website should work now
+
 1.1
 ========
 

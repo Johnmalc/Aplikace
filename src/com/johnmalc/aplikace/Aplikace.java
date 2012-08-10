@@ -1,5 +1,7 @@
 package com.johnmalc.aplikace;
 
+// import com.johnmalc.aplikace.Console;
+
 import java.awt.EventQueue;
 import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
@@ -8,12 +10,30 @@ import java.awt.Font;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JTextArea;
 import javax.swing.JButton;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.PrintStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import javax.swing.DropMode;
+import javax.swing.JTextPane;
+
+import javax.swing.SwingUtilities;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
+import javax.swing.text.JTextComponent;
+import javax.swing.JComboBox;
+
+
 
 /**
  * @author  John Malc
@@ -31,7 +51,6 @@ public class Aplikace extends JFrame {
 		private JTextArea LeftTextArea;
 		private JButton btnConnect;
 		private JTextArea RightTextArea;
-
 		/**
 		 * Launch the application.
 		 */
@@ -124,11 +143,28 @@ public class Aplikace extends JFrame {
 			if (btnConnect == null) {
 				btnConnect = new JButton("Connect");
 				btnConnect.addMouseListener(new MouseAdapter() {
-					@Override
-					public void mouseClicked(MouseEvent e) {
-						System.out.println("jdknsns");
-						// zde past connection
-						
+					@Override    
+					public void mouseClicked(MouseEvent e) { // TODO zde past connection
+					  
+						//    System.out.println("jdknsns");
+						HttpURLConnection connection = null;
+					    try {
+					        URL url = new URL("http://www.conrad.cz");
+					        connection = (HttpURLConnection) url.openConnection();
+					        connection.connect();
+					        connection.getInputStream();
+					       		    		        
+					       System.out.println("Connected to conrad.cz");   
+					       // do something with the input stream here
+					       // InputStream error = ((HttpURLConnection) connection).getErrorStream();
+					       
+					    } catch (MalformedURLException e1) {
+					        e1.printStackTrace();
+					    } catch (IOException e1) {
+					        e1.printStackTrace();
+					    } finally {
+					        if(null != connection) { connection.disconnect(); }
+					    }									
 					}
 				});
 				btnConnect.setBounds(140, 0, 89, 23);
@@ -138,17 +174,31 @@ public class Aplikace extends JFrame {
 		private JTextArea getLeftTextArea() { // left text area for input numbers
 			if (LeftTextArea == null) {
 				LeftTextArea = new JTextArea();
+				LeftTextArea.setDropMode(DropMode.INSERT);
 				LeftTextArea.setFont(new Font("Arial", Font.PLAIN, 13));
 				LeftTextArea.setLineWrap(true);
 				LeftTextArea.setBounds(10, 11, 174, 206);
 			} 
 			return LeftTextArea;
 		}
-		private JTextArea getRightTextArea() { // right text area for output (connection est./not-est.)
+		  private JTextArea getRightTextArea() { // right text area for output (connection est./not-est.)
 			if (RightTextArea == null) {
+				
 				RightTextArea = new JTextArea();
-				RightTextArea.setBounds(194, 14, 230, 109);
+				RightTextArea.setEnabled(false);
+				RightTextArea.setEditable(false);
+				RightTextArea.setLineWrap(true);
+				RightTextArea.setBounds(194, 11, 230, 109);
+				
 			}
 			return RightTextArea;
 		}
-	}
+}
+				
+	
+
+
+
+
+
+
