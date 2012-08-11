@@ -2,6 +2,8 @@ package com.johnmalc.aplikace;
 
 // import com.johnmalc.aplikace.Console;
 
+import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.EventQueue;
 import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
@@ -10,6 +12,7 @@ import java.awt.Font;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JTextArea;
@@ -44,13 +47,16 @@ public class Aplikace extends JFrame {
 
 		private static final long serialVersionUID = 1L;
 		private JPanel contentPane;
+		private JPanel ButtonPanel_1;
 		private JPanel ContentPanel;
-		private JPanel ButtonPanel;
 		private JButton btnCheck;
 		private JButton btnExit;
 		private JTextArea LeftTextArea;
 		private JButton btnConnect;
 		private JTextArea RightTextArea;
+		private Component scrollingArea;
+		private JScrollPane LeftScrollPane;
+		private JScrollPane RightScrollPane;
 		/**
 		 * Launch the application.
 		 */
@@ -75,36 +81,36 @@ public class Aplikace extends JFrame {
 			setIconImage(Toolkit.getDefaultToolkit().getImage(Aplikace.class.getResource("/res/conrad.png")));
 			
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			setBounds(100, 100, 450, 300);
+			setSize(521, 341);
 			contentPane = new JPanel();
 			contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 			setContentPane(contentPane);
 			contentPane.setLayout(null);
+			contentPane.add(getButtonPanel_1());
 			contentPane.add(getContentPanel());
-			contentPane.add(getButtonPanel());
+		}
+
+		private JPanel getButtonPanel_1() {
+			if (ButtonPanel_1 == null) {
+				ButtonPanel_1 = new JPanel();
+				ButtonPanel_1.setBounds(10, 256, 485, 36);
+				ButtonPanel_1.setLayout(null);
+				ButtonPanel_1.add(getBtnCheck());
+				ButtonPanel_1.add(getBtnExit());
+				ButtonPanel_1.add(getBtnConnect());
+			}
+			return ButtonPanel_1;
 		}
 
 		private JPanel getContentPanel() {
 			if (ContentPanel == null) {
 				ContentPanel = new JPanel();
-				ContentPanel.setBounds(0, 229, 434, 33);
+				ContentPanel.setBounds(0, 0, 495, 245);
 				ContentPanel.setLayout(null);
-				ContentPanel.add(getBtnCheck());
-				ContentPanel.add(getBtnExit());
-				ContentPanel.add(getBtnConnect());
+				ContentPanel.add(getLeftScrollPane());
+				ContentPanel.add(getRightScrollPane());
 			}
 			return ContentPanel;
-		}
-
-		private JPanel getButtonPanel() {
-			if (ButtonPanel == null) {
-				ButtonPanel = new JPanel();
-				ButtonPanel.setBounds(0, 0, 434, 228);
-				ButtonPanel.setLayout(null);
-				ButtonPanel.add(getLeftTextArea());
-				ButtonPanel.add(getRightTextArea());
-			}
-			return ButtonPanel;
 		}
 
 		private JButton getBtnCheck() { // Button for checking of numbers
@@ -177,22 +183,34 @@ public class Aplikace extends JFrame {
 				LeftTextArea.setDropMode(DropMode.INSERT);
 				LeftTextArea.setFont(new Font("Arial", Font.PLAIN, 13));
 				LeftTextArea.setLineWrap(true);
-				LeftTextArea.setBounds(10, 11, 174, 206);
 			} 
 			return LeftTextArea;
 		}
 		  private JTextArea getRightTextArea() { // right text area for output (connection est./not-est.)
 			if (RightTextArea == null) {
-				
 				RightTextArea = new JTextArea();
 				RightTextArea.setEnabled(false);
 				RightTextArea.setEditable(false);
 				RightTextArea.setLineWrap(true);
-				RightTextArea.setBounds(194, 11, 230, 109);
-				
 			}
 			return RightTextArea;
 		}
+		  private JScrollPane getLeftScrollPane() {
+			 if (LeftScrollPane == null) {
+			    LeftScrollPane = new JScrollPane();
+				LeftScrollPane.setBounds(10, 11, 174, 223);
+				LeftScrollPane.setViewportView(getLeftTextArea());
+		     }
+		     return LeftScrollPane;
+	    }
+		  private JScrollPane getRightScrollPane() {
+		     if (RightScrollPane == null) {
+		         RightScrollPane = new JScrollPane();
+		         RightScrollPane.setBounds(194, 11, 291, 126);
+			     RightScrollPane.setViewportView(getRightTextArea());
+		     }
+		     return RightScrollPane;
+	    }
 }
 				
 	

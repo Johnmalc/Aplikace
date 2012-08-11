@@ -5,8 +5,10 @@ Improve yes, but not allowed for commercial use.
 1.2 "Late Night"
 ========
 
-- Added Console.java due to GUI output (not ready)
-- Connection to any website should work now
+- Added Console.java due to GUI output (not ready & working)
+- Connection to any website should work now, but stll shows in the console, not in textarea
+- Added ScrollPane, working
+- Disabled RightPanel to be editible
 
 1.1
 ========
