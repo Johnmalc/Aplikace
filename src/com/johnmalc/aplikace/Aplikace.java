@@ -2,45 +2,42 @@ package com.johnmalc.aplikace;
 
 // import com.johnmalc.aplikace.Console;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
+import java.awt.AWTException;
 import java.awt.EventQueue;
+import java.awt.Image;
+import java.awt.MenuItem;
+import java.awt.PopupMenu;
+import java.awt.SystemTray;
 import java.awt.Toolkit;
+import java.awt.TrayIcon;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.Font;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JTextArea;
 import javax.swing.JButton;
+import javax.swing.DropMode;
 
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.PrintStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import javax.swing.DropMode;
-import javax.swing.JTextPane;
-
-import javax.swing.SwingUtilities;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.Document;
-import javax.swing.text.JTextComponent;
-import javax.swing.JComboBox;
+import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 
 
 
 /**
  * @author  John Malc
- * @version 1.1
+ * @version 1.2
  *
  */
 public class Aplikace extends JFrame { 
@@ -54,13 +51,21 @@ public class Aplikace extends JFrame {
 		private JTextArea LeftTextArea;
 		private JButton btnConnect;
 		private JTextArea RightTextArea;
-		private Component scrollingArea;
 		private JScrollPane LeftScrollPane;
 		private JScrollPane RightScrollPane;
 		/**
 		 * Launch the application.
 		 */
 		public static void main(String[] args) {
+			
+			// Windows Look and Feel (generated try & catch by Eclipse)
+			try {
+				UIManager.setLookAndFeel(new WindowsLookAndFeel());
+			} catch (UnsupportedLookAndFeelException e1) {
+				e1.printStackTrace();
+			}
+			
+			// from setup, DONT change 
 			EventQueue.invokeLater(new Runnable() {
 				public void run() {
 					try {
@@ -71,17 +76,38 @@ public class Aplikace extends JFrame {
 					}
 				}
 			});
-		}
+			
+		  // System tray icon (only 16x16)		
+		  if (SystemTray.isSupported()) {
+		          SystemTray tray = SystemTray.getSystemTray();
+		          Image image = Toolkit.getDefaultToolkit().getImage("icon.png");
+		          PopupMenu popup = new PopupMenu();
+		          // 
+		          // MenuItem item = new MenuItem("A MenuItem");
+		          // popup.add(item);
+		          TrayIcon trayIcon = new TrayIcon(image, "Conrad Application", popup);
+		          try {
+		            tray.add(trayIcon);
+		          } catch (AWTException e) {
+		            System.err.println("Can't add to tray");
+		          }
+		        } else {
+		          System.err.println("Tray unavailable");
+		        }
+		      }
+		   
+			
 
 		/**
 		 * Create the frame.
 		 */
 		public Aplikace() {
+			
 			// Icons for application (32*32 px (optinal) taskbar icon and 16*16 for topleft icon)
 			setIconImage(Toolkit.getDefaultToolkit().getImage(Aplikace.class.getResource("/res/conrad.png")));
 			
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			setSize(521, 341);
+			setSize(521, 341); // custom size due to rezing (width and lenght)
 			contentPane = new JPanel();
 			contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 			setContentPane(contentPane);
@@ -150,24 +176,29 @@ public class Aplikace extends JFrame {
 				btnConnect = new JButton("Connect");
 				btnConnect.addMouseListener(new MouseAdapter() {
 					@Override    
-					public void mouseClicked(MouseEvent e) { // TODO zde past connection
-					  
-						//    System.out.println("jdknsns");
+					public void mouseClicked(MouseEvent e) { 
+						
+						// TODO zde past connection
+					  	//    System.out.println("jdknsns");
+						
 						HttpURLConnection connection = null;
 					    try {
 					        URL url = new URL("http://www.conrad.cz");
 					        connection = (HttpURLConnection) url.openConnection();
 					        connection.connect();
-					        connection.getInputStream();
-					       		    		        
-					       System.out.println("Connected to conrad.cz");   
+					        connection.getInputStream();  		        
+					        System.out.println("Connected to conrad.cz");   
+					       
 					       // do something with the input stream here
 					       // InputStream error = ((HttpURLConnection) connection).getErrorStream();
-					       
+					      
+					       // # means special ID to understand where & what is wrong
 					    } catch (MalformedURLException e1) {
 					        e1.printStackTrace();
+					        System.err.println("Something's wrong #1");
 					    } catch (IOException e1) {
 					        e1.printStackTrace();
+					        System.err.println("Something's wrong #2");
 					    } finally {
 					        if(null != connection) { connection.disconnect(); }
 					    }									
