@@ -1,21 +1,16 @@
 package com.johnmalc.aplikace;
 
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.Scanner;
 
-
-import org.apache.http.*;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.conn.ClientConnectionManager;
-import org.apache.http.conn.ClientConnectionRequest;
-import org.apache.http.conn.ConnectionPoolTimeoutException;
-import org.apache.http.conn.ManagedClientConnection;
-import org.apache.http.conn.routing.HttpRoute;
-import org.apache.http.conn.scheme.PlainSocketFactory;
-import org.apache.http.conn.scheme.Scheme;
-import org.apache.http.conn.scheme.SchemeRegistry;
-import org.apache.http.impl.client.cache.CachingHttpClient;
-import org.apache.http.impl.conn.BasicClientConnectionManager;
+import org.apache.http.client.utils.URIBuilder;
+
 
 
 /**
@@ -27,49 +22,65 @@ public class Connection {
 
 	/**
 	 * @param args
+	 * @throws URISyntaxException 
 	 */
-	public static void main(String[] args) {
-		// TODO Napsat tridu pro overeni conradu (pripojeni na conrad). Resit take ruzne chyby.
-		Scheme http = new Scheme("http", 80, PlainSocketFactory.getSocketFactory());
-		SchemeRegistry sr = new SchemeRegistry();
-		sr.register(http);
-		ClientConnectionManager connMrg = new BasicClientConnectionManager(sr);
-
-		// Request new connection. This can be a long process
-		ClientConnectionRequest connRequest = connMrg.requestConnection(
-		        new HttpRoute(new HttpHost("http://www.conrad.de", 80)), null);
-
-		// Wait for connection up to 10 sec
-		ManagedClientConnection conn = null;
-		try {
-			conn = connRequest.getConnection(10, TimeUnit.SECONDS);
-		} catch (ConnectionPoolTimeoutException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (InterruptedException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		try {
-		    // Do useful things with the connection.
-		    // Release it when done.
-		    conn.releaseConnection();
-		} catch (IOException ex) {
-		    // Abort connection upon an I/O error.
-		    try {
-				conn.abortConnection();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		    try {
-				throw ex;
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+	@SuppressWarnings({ "resource", "unused" })
+	public static void main(String[] args) throws URISyntaxException {
+				
+		HttpURLConnection connection = null;
+	    try {
+	        URL url = new URL("http://www.conrad.cz");
+	        connection = (HttpURLConnection) url.openConnection();
+	        connection.connect();
+	        connection.getInputStream();  		        
+	        System.out.println("Connected to conrad.cz");   
+	       
+	       // do something with the input stream here
+	       // InputStream error = ((HttpURLConnection) connection).getErrorStream();
+	      
+	       // # means special ID to understand where & what is wrong
+	    	} catch (MalformedURLException e1) {
+	    		e1.printStackTrace();
+	    		System.err.println("Something's wrong #1");
+	    	} catch (IOException e1) {
+	    		e1.printStackTrace();
+	    		System.err.println("Something's wrong #2");
+	    	} finally {
+	    		if(null != connection) { connection.disconnect(); }
+	    	}									
+	   
+	    URIBuilder builder = new URIBuilder();
+			builder.setScheme("http").setHost("www.conrad.cz").setPath("/vyhledavani")
+		      	   .setParameter("text", "");
+		URI uri = builder.build();
+		HttpGet httpget = new HttpGet(uri);
 		
-	}
+		// http://www.conrad.cz/vyhledavani?text=dsfsmf%2C
+	    // HttpGet httpget = new HttpGet("http://www.google.com/search?hl=en&q=httpclient&btnG=Google+Search&aq=f&oq=");
+	
+		System.out.println("Zadejte vase cisla pro vyhledavani");	
+		String str = new Scanner(System.in).next();
+		int length = str.length(); // length() method of String returns the length of a String.											
+			if (length == 6){  //compares the length of the string to the number 6 and use == instead of =
+				System.out.println("Takove cislo muze existovat"); // System.out.println("Length of a String is : " + length);
+				}
+			else 
+				System.out.println("Takove cislo nemuze existovat");
+			}	
+	}	
+			
+//	
+//	
+//	
+//	
+//	
+//	HttpResponse response = new BasicHttpResponse(HttpVersion.HTTP_1_1, HttpStatus.SC_OK, "OK");
+//	System.out.println(response.getStatusLine().getStatusCode());
+//	
+//	}
+//	
+	
+	
+	
 
-}
+

@@ -1,7 +1,5 @@
 package com.johnmalc.aplikace;
 
-// import com.johnmalc.aplikace.Console;
-
 import java.awt.AWTException;
 import java.awt.EventQueue;
 import java.awt.Image;
@@ -12,7 +10,6 @@ import java.awt.Toolkit;
 import java.awt.TrayIcon;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -27,10 +24,6 @@ import javax.swing.JTextArea;
 import javax.swing.JButton;
 import javax.swing.DropMode;
 
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 
 
@@ -40,7 +33,8 @@ import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
  * @version 1.2
  *
  */
-public class Aplikace extends JFrame { 
+public class Aplikace extends JFrame { // Java doesn't allowed you to use multiple class inheritance
+	// http://stackoverflow.com/questions/880662/include-one-java-file-in-another-java-file
 
 		private static final long serialVersionUID = 1L;
 		private JPanel contentPane;
@@ -77,29 +71,28 @@ public class Aplikace extends JFrame {
 				}
 			});
 			
-		  // System tray icon (only 16x16)		
-		  if (SystemTray.isSupported()) {
-		          SystemTray tray = SystemTray.getSystemTray();
-		          Image image = Toolkit.getDefaultToolkit().getImage("icon.png");
-		          PopupMenu popup = new PopupMenu();
-		          // 
-		          // MenuItem item = new MenuItem("A MenuItem");
-		          // popup.add(item);
-		          TrayIcon trayIcon = new TrayIcon(image, "Conrad Application", popup);
+		  	// System tray icon (only 16x16)		
+		  	if (SystemTray.isSupported()) {
+		        SystemTray tray = SystemTray.getSystemTray();
+		        Image image = Toolkit.getDefaultToolkit().getImage(Aplikace.class.getResource("/res/icon.png"));
+		          
+		        // PopUp Buble
+		        PopupMenu popup = new PopupMenu();
+		        MenuItem item = new MenuItem("Conrad"); // if i click on the icon
+		        popup.add(item);
+		        TrayIcon trayIcon = new TrayIcon(image, "Conrad Application", popup); // if i move a cursor on the icon
 		          try {
 		            tray.add(trayIcon);
 		          } catch (AWTException e) {
 		            System.err.println("Can't add to tray");
 		          }
-		        } else {
+		  			} else {
 		          System.err.println("Tray unavailable");
 		        }
 		      }
 		   
-			
-
 		/**
-		 * Create the frame.
+		 * Create the frame. Main application
 		 */
 		public Aplikace() {
 			
@@ -139,7 +132,8 @@ public class Aplikace extends JFrame {
 			return ContentPanel;
 		}
 
-		private JButton getBtnCheck() { // Button for checking of numbers
+		// Button for checking of numbers
+		private JButton getBtnCheck() { 
 			if (btnCheck == null) {
 				btnCheck = new JButton("Check");
 				btnCheck.addActionListener(new ActionListener() {
@@ -157,8 +151,9 @@ public class Aplikace extends JFrame {
 			}
 			return btnCheck;
 		}
-
-		private JButton getBtnExit() { // Button for Exit
+		
+		// Button for Exit
+		private JButton getBtnExit() {
 			if (btnExit == null) {
 				btnExit = new JButton("Exit");
 				btnExit.addMouseListener(new MouseAdapter() {
@@ -171,53 +166,35 @@ public class Aplikace extends JFrame {
 			}
 			return btnExit;
 		}
-		private JButton getBtnConnect() { // Button for Connection
+		
+		// Button for Connection
+		private JButton getBtnConnect() {
 			if (btnConnect == null) {
 				btnConnect = new JButton("Connect");
 				btnConnect.addMouseListener(new MouseAdapter() {
 					@Override    
 					public void mouseClicked(MouseEvent e) { 
+					//	TODO psat conncetion
 						
-						// TODO zde past connection
-					  	//    System.out.println("jdknsns");
-						
-						HttpURLConnection connection = null;
-					    try {
-					        URL url = new URL("http://www.conrad.cz");
-					        connection = (HttpURLConnection) url.openConnection();
-					        connection.connect();
-					        connection.getInputStream();  		        
-					        System.out.println("Connected to conrad.cz");   
-					       
-					       // do something with the input stream here
-					       // InputStream error = ((HttpURLConnection) connection).getErrorStream();
-					      
-					       // # means special ID to understand where & what is wrong
-					    } catch (MalformedURLException e1) {
-					        e1.printStackTrace();
-					        System.err.println("Something's wrong #1");
-					    } catch (IOException e1) {
-					        e1.printStackTrace();
-					        System.err.println("Something's wrong #2");
-					    } finally {
-					        if(null != connection) { connection.disconnect(); }
-					    }									
-					}
-				});
+				}});
 				btnConnect.setBounds(140, 0, 89, 23);
 			}
 			return btnConnect;
 		}
-		private JTextArea getLeftTextArea() { // left text area for input numbers
+		
+		// left text area for input numbers
+		private JTextArea getLeftTextArea() {
 			if (LeftTextArea == null) {
-				LeftTextArea = new JTextArea();
-				LeftTextArea.setDropMode(DropMode.INSERT);
-				LeftTextArea.setFont(new Font("Arial", Font.PLAIN, 13));
+			    LeftTextArea = new JTextArea();
+			    LeftTextArea.setDropMode(DropMode.INSERT);
+			    LeftTextArea.setFont(new Font("Arial", Font.PLAIN, 13));
 				LeftTextArea.setLineWrap(true);
 			} 
-			return LeftTextArea;
+			 return LeftTextArea;
 		}
-		  private JTextArea getRightTextArea() { // right text area for output (connection est./not-est.)
+		
+		  // right text area for output (connection est./not-est.)
+		private JTextArea getRightTextArea() { 
 			if (RightTextArea == null) {
 				RightTextArea = new JTextArea();
 				RightTextArea.setEnabled(false);
@@ -226,21 +203,21 @@ public class Aplikace extends JFrame {
 			}
 			return RightTextArea;
 		}
-		  private JScrollPane getLeftScrollPane() {
-			 if (LeftScrollPane == null) {
+		private JScrollPane getLeftScrollPane() {
+			if (LeftScrollPane == null) {
 			    LeftScrollPane = new JScrollPane();
 				LeftScrollPane.setBounds(10, 11, 174, 223);
 				LeftScrollPane.setViewportView(getLeftTextArea());
-		     }
-		     return LeftScrollPane;
+		    }
+		    return LeftScrollPane;
 	    }
-		  private JScrollPane getRightScrollPane() {
-		     if (RightScrollPane == null) {
-		         RightScrollPane = new JScrollPane();
-		         RightScrollPane.setBounds(194, 11, 291, 126);
-			     RightScrollPane.setViewportView(getRightTextArea());
-		     }
-		     return RightScrollPane;
+		private JScrollPane getRightScrollPane() {
+		    if (RightScrollPane == null) {
+		        RightScrollPane = new JScrollPane();
+		        RightScrollPane.setBounds(194, 11, 291, 126);
+			    RightScrollPane.setViewportView(getRightTextArea());
+		    }
+		    return RightScrollPane;
 	    }
 }
 				

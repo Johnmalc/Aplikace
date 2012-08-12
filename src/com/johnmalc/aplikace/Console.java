@@ -17,51 +17,50 @@ import javax.swing.text.JTextComponent;
  */
 public class Console {
 
-		  private JTextArea textComponent;
+	private JTextArea textComponent;
 
-			public static void sendTo(JTextArea textComponent) {
+		public static void sendTo(JTextArea textComponent) {
 				new Console(textComponent).redirectSystemStreams();
 			}
 
-			private Console(JTextArea textComponent) {
+		/**
+		 * @wbp.parser.entryPoint
+		 */
+		private Console(JTextArea textComponent) {
 				this.textComponent = textComponent;
 			}
 
-			private void updateTextComponent(final String text) {
-				SwingUtilities.invokeLater(new Runnable() {
-					public void run() {
-						Document doc = textComponent.getDocument();
-						try {
-							doc.insertString(doc.getLength(), text, null);
-						} catch (BadLocationException e) {
-							throw new RuntimeException(e);
-						}
-						textComponent.setCaretPosition(doc.getLength() - 1);
+		private void updateTextComponent(final String text) {
+			SwingUtilities.invokeLater(new Runnable() {
+				public void run() {
+					Document doc = textComponent.getDocument();
+					try {
+						doc.insertString(doc.getLength(), text, null);
+					} catch (BadLocationException e) {
+						throw new RuntimeException(e);
 					}
-				});
-			}
+					textComponent.setCaretPosition(doc.getLength() - 1);
+				}
+			});
+		}
 
-			private void redirectSystemStreams() {
-				OutputStream out = new OutputStream() {
+		private void redirectSystemStreams() {
+			OutputStream out = new OutputStream() {
+				@Override
+				public void write(final int b) throws IOException {
+					updateTextComponent(String.valueOf((char) b));
+				}
 					@Override
-					public void write(final int b) throws IOException {
-						updateTextComponent(String.valueOf((char) b));
-					}
-
+				public void write(byte[] b, int off, int len) throws IOException {
+					updateTextComponent(new String(b, off, len));
+				}
 					@Override
-					public void write(byte[] b, int off, int len) throws IOException {
-						updateTextComponent(new String(b, off, len));
-					}
-
-					@Override
-					public void write(byte[] b) throws IOException {
-						write(b, 0, b.length);
-					}
-				};
-
+				public void write(byte[] b) throws IOException {
+					write(b, 0, b.length);
+				}
+			};
 				System.setOut(new PrintStream(out, true));
 				System.setErr(new PrintStream(out, true));
-			}}
-
-		
+		}
+}		
 		
