@@ -21,6 +21,14 @@ For future (potential TODO)
 
 **1.3 "Nocona"**
 
+- Accepts <= 8 numbers. Done but probably not needed. 
+- Solved: display console message in GUI, instead of console. Yeah. And deleted console.java
+Special font for right text area
+- The last application using Swing, next time only SWT. Look on that options
+- Removed html jsoup parser - no need
+- Have no idea why i deleted application name > restored
+- Connection may be not needed, but search func. is essential 
+
 
 
 

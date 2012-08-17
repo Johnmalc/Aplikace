@@ -15,7 +15,7 @@ import org.apache.http.client.utils.URIBuilder;
 
 /**
  * @author  John Malc
- * @version 1.0
+ * @version 1.2
  *
  */
 public class Connection {
@@ -60,25 +60,59 @@ public class Connection {
 	
 		System.out.println("Zadejte vase cisla pro vyhledavani");	
 		String str = new Scanner(System.in).next();
-		int length = str.length(); // length() method of String returns the length of a String.											
-			if (length == 6){  //compares the length of the string to the number 6 and use == instead of =
-				System.out.println("Takove cislo muze existovat"); // System.out.println("Length of a String is : " + length);
-				}
-			else 
-				System.out.println("Takove cislo nemuze existovat");
-			}	
-	}	
+		
+		
+		
+	}}
+//		double [] vars = new double[350]; 
+//		for(int i = 0; i < vars.length; i++) {
+//			 // System.out.println("Zadejte vase cisla pro vyhledavani ");
+//			  vars[i] = str.nextDouble();
+//			  break;
+//		
+//		Scanner in = new Scanner(System.in);
+//		int[] vars = new int[1000];
+//
+//		System.out.println("Zadejte maximalne "+vars.length+" znaku: ");
+//		for(int i = 0; i < vars.length; i++)
+//		  vars[i] = in.nextInt();
+//	}
+//	}
+		
+		
+//		while(true) {
+//			test = str.nextDouble();
+//			double length = str.length();
+//			if(test >= 8) {
+//				System.out.println("Takove cislo muze existovat");
+//				}
+//			else 	
+//				System.out.println("Takove cislo nemuze existovat");
+//		
+//				}
+//		}
+//	}
 			
-//	
-//	
-//	
-//	
-//	
+		//	int srt;
+			// int length = str.length();
+		
+		
+//		// int length = str.length(); // length() method of String returns the length of a String.											
+//			if (length <= 8){  // compares the length of the string to the number 8 and smaller (==, not =)
+//				System.out.println("Takove cislo muze existovat"); // System.out.println("Length of a String is : " + length);
+//				}
+//			else 
+//				System.out.println("Takove cislo nemuze existovat");
+//			}	
+//	}
+//	}	
+//			
+
 //	HttpResponse response = new BasicHttpResponse(HttpVersion.HTTP_1_1, HttpStatus.SC_OK, "OK");
 //	System.out.println(response.getStatusLine().getStatusCode());
-//	
+	
 //	}
-//	
+
 	
 	
 	

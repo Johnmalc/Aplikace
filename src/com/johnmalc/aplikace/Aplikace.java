@@ -3,6 +3,7 @@ package com.johnmalc.aplikace;
 import java.awt.AWTException;
 import java.awt.EventQueue;
 import java.awt.Image;
+import java.awt.Color;
 import java.awt.MenuItem;
 import java.awt.PopupMenu;
 import java.awt.SystemTray;
@@ -13,6 +14,11 @@ import java.awt.event.MouseEvent;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -24,17 +30,35 @@ import javax.swing.JTextArea;
 import javax.swing.JButton;
 import javax.swing.DropMode;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
+
 import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
-
-
+import java.awt.event.MouseMotionAdapter;
+import java.awt.event.InputMethodListener;
+import java.awt.event.InputMethodEvent;
+import java.awt.Window.Type;
 
 /**
  * @author  John Malc
- * @version 1.2
+ * @version 1.3
  *
  */
-public class Aplikace extends JFrame { // Java doesn't allowed you to use multiple class inheritance
-	// http://stackoverflow.com/questions/880662/include-one-java-file-in-another-java-file
+public class Aplikace extends JFrame { 
+		// Java doesn't allowed you to use multiple class inheritance
+		// http://stackoverflow.com/questions/880662/include-one-java-file-in-another-java-file
 
 		private static final long serialVersionUID = 1L;
 		private JPanel contentPane;
@@ -43,7 +67,6 @@ public class Aplikace extends JFrame { // Java doesn't allowed you to use multip
 		private JButton btnCheck;
 		private JButton btnExit;
 		private JTextArea LeftTextArea;
-		private JButton btnConnect;
 		private JTextArea RightTextArea;
 		private JScrollPane LeftScrollPane;
 		private JScrollPane RightScrollPane;
@@ -75,7 +98,7 @@ public class Aplikace extends JFrame { // Java doesn't allowed you to use multip
 		  	if (SystemTray.isSupported()) {
 		        SystemTray tray = SystemTray.getSystemTray();
 		        Image image = Toolkit.getDefaultToolkit().getImage(Aplikace.class.getResource("/res/icon.png"));
-		          
+
 		        // PopUp Buble
 		        PopupMenu popup = new PopupMenu();
 		        MenuItem item = new MenuItem("Conrad"); // if i click on the icon
@@ -95,6 +118,7 @@ public class Aplikace extends JFrame { // Java doesn't allowed you to use multip
 		 * Create the frame. Main application
 		 */
 		public Aplikace() {
+			setTitle("Conrad - Project Nocona");
 			
 			// Icons for application (32*32 px (optinal) taskbar icon and 16*16 for topleft icon)
 			setIconImage(Toolkit.getDefaultToolkit().getImage(Aplikace.class.getResource("/res/conrad.png")));
@@ -116,7 +140,7 @@ public class Aplikace extends JFrame { // Java doesn't allowed you to use multip
 				ButtonPanel_1.setLayout(null);
 				ButtonPanel_1.add(getBtnCheck());
 				ButtonPanel_1.add(getBtnExit());
-				ButtonPanel_1.add(getBtnConnect());
+				
 			}
 			return ButtonPanel_1;
 		}
@@ -143,8 +167,8 @@ public class Aplikace extends JFrame { // Java doesn't allowed you to use multip
 				btnCheck.addMouseListener(new MouseAdapter() {
 					@Override
 					public void mouseClicked(MouseEvent e) {
-
-						// TODO if clicked it will check the input numbers
+						RightTextArea.append("Checking....");
+						// TODO if clicked it will connect & check the input numbers
 					}
 				});
 				btnCheck.setBounds(244, 0, 81, 23);
@@ -167,36 +191,23 @@ public class Aplikace extends JFrame { // Java doesn't allowed you to use multip
 			return btnExit;
 		}
 		
-		// Button for Connection
-		private JButton getBtnConnect() {
-			if (btnConnect == null) {
-				btnConnect = new JButton("Connect");
-				btnConnect.addMouseListener(new MouseAdapter() {
-					@Override    
-					public void mouseClicked(MouseEvent e) { 
-					//	TODO psat conncetion
-						
-				}});
-				btnConnect.setBounds(140, 0, 89, 23);
-			}
-			return btnConnect;
-		}
-		
 		// left text area for input numbers
 		private JTextArea getLeftTextArea() {
 			if (LeftTextArea == null) {
 			    LeftTextArea = new JTextArea();
 			    LeftTextArea.setDropMode(DropMode.INSERT);
 			    LeftTextArea.setFont(new Font("Arial", Font.PLAIN, 13));
-				LeftTextArea.setLineWrap(true);
+			    LeftTextArea.setLineWrap(true);
 			} 
 			 return LeftTextArea;
 		}
 		
-		  // right text area for output (connection est./not-est.)
+		  // right text area for output (connection est./not-est. & checking numbers)
 		private JTextArea getRightTextArea() { 
 			if (RightTextArea == null) {
-				RightTextArea = new JTextArea();
+				RightTextArea = new JTextArea();			
+				RightTextArea.setFont(new Font("Century", Font.PLAIN, 15));
+				RightTextArea.setForeground(Color.WHITE); // color of the font
 				RightTextArea.setEnabled(false);
 				RightTextArea.setEditable(false);
 				RightTextArea.setLineWrap(true);
@@ -220,11 +231,3 @@ public class Aplikace extends JFrame { // Java doesn't allowed you to use multip
 		    return RightScrollPane;
 	    }
 }
-				
-	
-
-
-
-
-
-

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry exported="true" kind="lib" path="C:/Users/Dima/httpcomponents-client-4.2.1/lib/commons-codec-1.6.jar"/>
 	<classpathentry exported="true" kind="lib" path="C:/Users/Dima/httpcomponents-client-4.2.1/lib/commons-logging-1.1.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="C:/Users/Dima/httpcomponents-client-4.2.1/lib/fluent-hc-4.2.1.jar"/>
@@ -22,6 +21,5 @@
 	<classpathentry exported="true" kind="lib" path="C:/Users/Dima/Desktop/eclipse/plugins/com.ibm.icu_4.4.2.v20110823.jar" sourcepath="C:/Users/Dima/Desktop/eclipse/plugins/com.ibm.icu_4.4.2.v20110823.jar"/>
 	<classpathentry exported="true" kind="lib" path="C:/Users/Dima/Desktop/eclipse/plugins/org.eclipse.ui.forms_3.5.200.v20120521-2329.jar" sourcepath="C:/Users/Dima/Desktop/eclipse/plugins/org.eclipse.ui.forms_3.5.200.v20120521-2329.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jre7"/>
-	<classpathentry exported="true" kind="lib" path="C:/Users/Dima/html parser for java/jsoup-1.6.3.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
