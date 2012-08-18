@@ -1,69 +1,177 @@
 package com.johnmalc.aplikace;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.DataInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.net.URLConnection;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.HTTP;
 
 
 
 /**
  * @author  John Malc
- * @version 1.2
+ * @version 1.3
  *
  */
 public class Connection {
 
 	/**
 	 * @param args
-	 * @throws URISyntaxException 
 	 */
-	@SuppressWarnings({ "resource", "unused" })
-	public static void main(String[] args) throws URISyntaxException {
+	@SuppressWarnings("deprecation")
+	//public static void main(String[] args) {
+		/**
+		 * http://docs.oracle.com/javase/tutorial/networking/urls/readingWriting.html
+		 * 
+		 * Create a URL. 
+		 * Retrieve the URLConnection object. 
+		 * Set output capability on the URLConnection. 
+		 * Open a connection to the resource.
+		 * Get an output stream from the connection. 
+		 * Write to the output stream.
+		 * Close the output stream.
+		 * 
+		 * 
+		 */
+		
+//		HttpClient httpclient = new DefaultHttpClient();
+//	    HttpPost httppost = new HttpPost("http://www.comrad.cz/vyhledavani?text=");
+//	   
+//	    URLConnection uconn = uri.openConnection();
+//	    HttpURLConnection conn = (HttpURLConnection)uconn;
+////	    
+//	    System.out.println("Zadejte vase cisla pro vyhledavani");	
+//		int numbers = new Scanner(System.in).nextInt();
+//	}}
+//		
+		// Variables to hold the URL object and its connection to that URL.
+		// http://www.dreamincode.net/forums/blog/114/entry-2715-login-to-a-website-from-java/
+	    private static URL URLObj;
+	    private static URLConnection connect;
+		
+	    public static void main(String[] args) {
+	        try {
+	            // Establish a URL and open a connection to it. Set it to output mode.
+	            URLObj = new URL("http://www.conrad.cz/");
+	            connect = URLObj.openConnection();
+	            connect.setDoOutput(true);	
+	        }
+	        catch (MalformedURLException ex) {
+	            System.out.println("The URL specified was unable to be parsed or uses an invalid protocol. Please try again.");
+	            System.exit(1); 
+	        }
+	        catch (Exception ex) {
+	            System.out.println("An exception occurred. " + ex.getMessage());
+	            System.exit(1);
+	        }
+			
+			
+	        try {
+	            // Create a buffered writer to the URLConnection's output stream and write our forms parameters.
+	            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(connect.getOutputStream()));
+	            int a = new Scanner(System.in).nextInt();
+	            writer.write("vyhledavani?text=" + a);
+	            writer.close();
 				
-		HttpURLConnection connection = null;
-	    try {
-	        URL url = new URL("http://www.conrad.cz");
-	        connection = (HttpURLConnection) url.openConnection();
-	        connection.connect();
-	        connection.getInputStream();  		        
-	        System.out.println("Connected to conrad.cz");   
-	       
-	       // do something with the input stream here
-	       // InputStream error = ((HttpURLConnection) connection).getErrorStream();
-	      
-	       // # means special ID to understand where & what is wrong
-	    	} catch (MalformedURLException e1) {
-	    		e1.printStackTrace();
-	    		System.err.println("Something's wrong #1");
-	    	} catch (IOException e1) {
-	    		e1.printStackTrace();
-	    		System.err.println("Something's wrong #2");
-	    	} finally {
-	    		if(null != connection) { connection.disconnect(); }
-	    	}									
-	   
-	    URIBuilder builder = new URIBuilder();
-			builder.setScheme("http").setHost("www.conrad.cz").setPath("/vyhledavani")
-		      	   .setParameter("text", "");
-		URI uri = builder.build();
-		HttpGet httpget = new HttpGet(uri);
-		
-		// http://www.conrad.cz/vyhledavani?text=dsfsmf%2C
-	    // HttpGet httpget = new HttpGet("http://www.google.com/search?hl=en&q=httpclient&btnG=Google+Search&aq=f&oq=");
-	
-		System.out.println("Zadejte vase cisla pro vyhledavani");	
-		String str = new Scanner(System.in).next();
-		
-		
-		
-	}}
+	            // Now establish a buffered reader to read the URLConnection's input stream.
+	            BufferedReader reader = new BufferedReader(new InputStreamReader(connect.getInputStream()));
+				
+	            String lineRead = "";
+				
+	            // Read all available lines of data from the URL and print them to screen.
+	            while ((lineRead = reader.readLine()) != null) {
+	                System.out.println(lineRead);
+	            }
+				
+	            reader.close();
+	        }
+	        catch (Exception ex) {
+	            System.out.println("There was an error reading or writing to the URL: " + ex.getMessage());
+	        }
+	    }
+		   
+}		   
+		   
+//		if(numbers == exist) {
+//			System.out.print(numbers + "Existuje");
+//			else {
+//				System.out.print(numbers + "neexistuje");
+//			}
+
+//        // Execute HTTP Post Request
+//        HttpResponse response = httpclient.execute(httppost);
+//        try {
+//            // Add your data
+//            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+//            nameValuePairs.add(new BasicNameValuePair("id", "12345"));
+//            nameValuePairs.add(new BasicNameValuePair("stringdata", "AndDev is Cool!"));
+//            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+//
+//    } catch (IOException e) {
+//        // TODO Auto-generated catch block
+
+//		HttpURLConnection connection = null;
+//	    try {
+//	        URL url = new URL("http://www.conrad.cz");
+//	        connection = (HttpURLConnection) url.openConnection();
+//	        connection.connect();
+//	        connection.getInputStream();  		        
+//	        System.out.println("Connected to conrad.cz");   
+////	       
+//	        System.out.println("Zadejte vase cisla pro vyhledavani");	
+//			String str = new Scanner(System.in).next();
+//
+//	        
+//	       // do something with the input stream here
+//	       // InputStream error = ((HttpURLConnection) connection).getErrorStream();
+//	      
+//	       // # means special ID to understand where & what is wrong
+//	    	} catch (MalformedURLException e1) {
+//	    		e1.printStackTrace();
+//	    		System.err.println("Something's wrong #1");
+//	    	} catch (IOException e1) {
+//	    		e1.printStackTrace();
+//	    		System.err.println("Something's wrong #2");
+//	    	} finally {
+//	    		if(null != connection) { connection.disconnect(); }
+//	    	}									
+//	   
+//	    URIBuilder builder = new URIBuilder();
+//			builder.setScheme("http").setHost("www.conrad.cz").setPath("/vyhledavani")
+//		      	   .setParameter("text", "");
+//		URI uri = builder.build();
+//		HttpGet httpget = new HttpGet(uri);
+//		
+//		// http://www.conrad.cz/vyhledavani?text=dsfsmf%2C
+//	    // HttpGet httpget = new HttpGet("http://www.google.com/search?hl=en&q=httpclient&btnG=Google+Search&aq=f&oq=");
+//	
+//		
+//		
+//		
+//	}}
 //		double [] vars = new double[350]; 
 //		for(int i = 0; i < vars.length; i++) {
 //			 // System.out.println("Zadejte vase cisla pro vyhledavani ");

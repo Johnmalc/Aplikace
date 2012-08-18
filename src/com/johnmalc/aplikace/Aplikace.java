@@ -23,6 +23,7 @@ import java.net.URL;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.Popup;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EmptyBorder;
@@ -44,6 +45,7 @@ import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+import org.eclipse.swt.widgets.Item;
 
 import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 import java.awt.event.MouseMotionAdapter;
@@ -57,8 +59,10 @@ import java.awt.Window.Type;
  *
  */
 public class Aplikace extends JFrame { 
-		// Java doesn't allowed you to use multiple class inheritance
-		// http://stackoverflow.com/questions/880662/include-one-java-file-in-another-java-file
+		/**
+		 *  Java doesn't allowed you to use multiple class inheritance
+		 *  http://stackoverflow.com/questions/880662/include-one-java-file-in-another-java-file
+		 */
 
 		private static final long serialVersionUID = 1L;
 		private JPanel contentPane;
@@ -73,9 +77,16 @@ public class Aplikace extends JFrame {
 		/**
 		 * Launch the application.
 		 */
-		public static void main(String[] args) {
+			/**
+			 * @param args
+			 */
 			
-			// Windows Look and Feel (generated try & catch by Eclipse)
+			public static void main(String[] args) {
+			
+			/**
+			 * Windows Look and Feel (generated try & catch by Eclipse)
+			 * 
+			 */ 
 			try {
 				UIManager.setLookAndFeel(new WindowsLookAndFeel());
 			} catch (UnsupportedLookAndFeelException e1) {
@@ -94,33 +105,78 @@ public class Aplikace extends JFrame {
 				}
 			});
 			
-		  	// System tray icon (only 16x16)		
-		  	if (SystemTray.isSupported()) {
-		        SystemTray tray = SystemTray.getSystemTray();
-		        Image image = Toolkit.getDefaultToolkit().getImage(Aplikace.class.getResource("/res/icon.png"));
-
-		        // PopUp Buble
+			/**
+			 * 
+			 * System tray icon (only 16x16)
+			 * http://kahimyang.info/kauswagan/howto_blogs/655-how_to_add_a_system_try_icon_with_bubble_message_to_java_application
+			 * 
+			 */
+		  	
+			if (SystemTray.isSupported()) {
+		        Image icon = Toolkit.getDefaultToolkit().getImage(Aplikace.class.getResource("/res/icon.png"));       
+		        // create the trayIcon itself.
+		        final TrayIcon trayIcon = new TrayIcon(icon);
+		 
+		       /**
+		        *  access the system tray. If not supported
+		        *  or if notification area is not present (Ubuntu) 
+		        *  a NotSupportedException exception is trown;
+		        */
+		 
+		        final SystemTray tray = SystemTray.getSystemTray();
+		 
+		        // Create popup menu
 		        PopupMenu popup = new PopupMenu();
-		        MenuItem item = new MenuItem("Conrad"); // if i click on the icon
-		        popup.add(item);
-		        TrayIcon trayIcon = new TrayIcon(image, "Conrad Application", popup); // if i move a cursor on the icon
-		          try {
+		        MenuItem exit = new MenuItem("Exit");
+		        // exit popup button
+		        exit.addActionListener(new ActionListener() {
+		            @Override
+		            public void actionPerformed(ActionEvent e) {
+		                // Do some cleanup
+		                tray.remove(trayIcon);
+		                System.exit(0);
+		            }
+		        });
+		 		
+		        // add to popup menu
+		        popup.add(exit);
+		 
+		        /**
+		         *  Add tooltip and menu to trayicon
+		         */
+		        trayIcon.setToolTip("Conrad aplikace");
+		        trayIcon.setPopupMenu(popup);
+		 
+		        /**
+		         *  Add the trayIcon to system tray/notification area
+		         */
+		        try {
 		            tray.add(trayIcon);
-		          } catch (AWTException e) {
-		            System.err.println("Can't add to tray");
-		          }
-		  			} else {
-		          System.err.println("Tray unavailable");
+		        } catch (AWTException e) {
+		            System.out.println("Could not load tray icon !");
 		        }
-		      }
-		   
+		       		 		       
+		        // Continue/Simulate long running application code
+		        try {
+		            java.lang.Thread.sleep(1000 * 5);
+		        } catch (Exception e) {
+		        }		 
+		        
+		        // remove the icon.  Task is done.
+		        tray.remove(trayIcon);
+		    }
+		 
+		}
+		          
 		/**
 		 * Create the frame. Main application
 		 */
 		public Aplikace() {
 			setTitle("Conrad - Project Nocona");
 			
-			// Icons for application (32*32 px (optinal) taskbar icon and 16*16 for topleft icon)
+			/**
+			 *  Icons for application (32*32 px (optinal) taskbar icon and 16*16 for topleft icon)
+			 */
 			setIconImage(Toolkit.getDefaultToolkit().getImage(Aplikace.class.getResource("/res/conrad.png")));
 			
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -155,8 +211,10 @@ public class Aplikace extends JFrame {
 			}
 			return ContentPanel;
 		}
-
-		// Button for checking of numbers
+		
+		/**
+		* Button for checking of numbers
+		*/ 
 		private JButton getBtnCheck() { 
 			if (btnCheck == null) {
 				btnCheck = new JButton("Check");
@@ -176,7 +234,10 @@ public class Aplikace extends JFrame {
 			return btnCheck;
 		}
 		
-		// Button for Exit
+		/**
+		*
+		*	Button for Exit
+		*/ 
 		private JButton getBtnExit() {
 			if (btnExit == null) {
 				btnExit = new JButton("Exit");
@@ -191,7 +252,10 @@ public class Aplikace extends JFrame {
 			return btnExit;
 		}
 		
-		// left text area for input numbers
+		/**
+		 *  left text area for input numbers
+		 * @return
+		 */
 		private JTextArea getLeftTextArea() {
 			if (LeftTextArea == null) {
 			    LeftTextArea = new JTextArea();
@@ -202,7 +266,10 @@ public class Aplikace extends JFrame {
 			 return LeftTextArea;
 		}
 		
-		  // right text area for output (connection est./not-est. & checking numbers)
+		  /**
+		   *  right text area for output (connection est./not-est. & checking numbers)
+		   * @return
+		   */
 		private JTextArea getRightTextArea() { 
 			if (RightTextArea == null) {
 				RightTextArea = new JTextArea();			
