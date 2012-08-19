@@ -1,4 +1,4 @@
-This application connects and checks if the product exists or not. Possible works with many websites, but only one is tested (max. 2). 
+This application connects and checks if the product exists or not. Possible work with many websites, but only one is tested (max. 2). 
 
 # Documentation #
 
@@ -17,7 +17,7 @@ For future (potential TODO)
 
 
 
-# Changelog #
+# Changelog - "huge diary" #
 
 
 **1.3 "Nocona"**

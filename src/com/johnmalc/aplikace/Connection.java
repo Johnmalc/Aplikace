@@ -17,7 +17,6 @@ import java.util.Scanner;
  * @version 1.3
  *
  */
-public class Connection {
 
 	//public static void main(String[] args) {
 		/**
@@ -46,6 +45,7 @@ public class Connection {
 //		
 		// Variables to hold the URL object and its connection to that URL.
 		// http://www.dreamincode.net/forums/blog/114/entry-2715-login-to-a-website-from-java/
+public class Connection {		
 	    private static URL URLObj;
 	    private static URLConnection connect;
 		
