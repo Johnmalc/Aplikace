@@ -2,32 +2,13 @@ package com.johnmalc.aplikace;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.DataInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.utils.URIBuilder;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.protocol.HTTP;
 
 
 
@@ -38,10 +19,6 @@ import org.apache.http.protocol.HTTP;
  */
 public class Connection {
 
-	/**
-	 * @param args
-	 */
-	@SuppressWarnings("deprecation")
 	//public static void main(String[] args) {
 		/**
 		 * http://docs.oracle.com/javase/tutorial/networking/urls/readingWriting.html
@@ -72,12 +49,17 @@ public class Connection {
 	    private static URL URLObj;
 	    private static URLConnection connect;
 		
-	    public static void main(String[] args) {
+	    @SuppressWarnings({ "resource", "unused" })
+		public static void main(String[] args) {
 	        try {
 	            // Establish a URL and open a connection to it. Set it to output mode.
-	            URLObj = new URL("http://www.conrad.cz/");
+	        	// int a = new Scanner(System.in).nextInt();
+		   		int a = new Scanner(System.in).nextInt();
+
+	            URLObj = new URL("http://www.conrad.cz/vyhledavani?text=" + a);
 	            connect = URLObj.openConnection();
 	            connect.setDoOutput(true);	
+	            connect.setDoInput(true);
 	        }
 	        catch (MalformedURLException ex) {
 	            System.out.println("The URL specified was unable to be parsed or uses an invalid protocol. Please try again.");
@@ -88,32 +70,59 @@ public class Connection {
 	            System.exit(1);
 	        }
 			
-			
 	        try {
 	            // Create a buffered writer to the URLConnection's output stream and write our forms parameters.
 	            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(connect.getOutputStream()));
-	            int a = new Scanner(System.in).nextInt();
-	            writer.write("vyhledavani?text=" + a);
-	            writer.close();
-				
-	            // Now establish a buffered reader to read the URLConnection's input stream.
-	            BufferedReader reader = new BufferedReader(new InputStreamReader(connect.getInputStream()));
-				
-	            String lineRead = "";
-				
-	            // Read all available lines of data from the URL and print them to screen.
-	            while ((lineRead = reader.readLine()) != null) {
-	                System.out.println(lineRead);
+	          /* int a = new Scanner(System.in).nextInt();
+	            		writer.write(a);
+	    	            writer.close();*/
+	    				
+	    	            // Now establish a buffered reader to read the URLConnection's input stream.
+	    	            BufferedReader reader = new BufferedReader(new InputStreamReader(connect.getInputStream()));
+	    				
+	    	                 
+	    	            
+	    	            String lineRead = "";
+	    			
+	    	            // Read all available lines of data from the URL and print them to screen.
+	    	           // while ((lineRead = reader.readLine()) != null) {
+	    	             //   System.out.println(lineRead);
+	    	            // }
+	    	            
+	    	            reader.close();
 	            }
-				
-	            reader.close();
-	        }
-	        catch (Exception ex) {
-	            System.out.println("There was an error reading or writing to the URL: " + ex.getMessage());
-	        }
+	    	        catch (Exception ex) {
+	    	        	// If not found then this, 404
+	    	            System.out.println("Nothing to be found: " + ex.getMessage());
+	            	}
 	    }
-		   
-}		   
+}
+
+	            
+	        	            		
+	            		
+//	            writer.write("vyhledavani?text=" + a);
+//	            writer.close();
+//				
+//	            // Now establish a buffered reader to read the URLConnection's input stream.
+//	            BufferedReader reader = new BufferedReader(new InputStreamReader(connect.getInputStream()));
+//				
+//	            String lineRead = "";
+//				
+//	            // Read all available lines of data from the URL and print them to screen.
+//	            while ((lineRead = reader.readLine()) != null) {
+//	                System.out.println(lineRead);
+//	            }
+//				
+//	            reader.close();
+//	        }
+//	        catch (Exception ex) {
+//	        	// If not found then this, 404
+//	            System.out.println("Nothing to be found: " + ex.getMessage());
+//	        }
+//	    }
+//		   
+//}		   
 		   
 //		if(numbers == exist) {
 //			System.out.print(numbers + "Existuje");
@@ -191,7 +200,7 @@ public class Connection {
 //		while(true) {
 //			test = str.nextDouble();
 //			double length = str.length();
-//			if(test >= 8) {
+//			if(test <= 8) {
 //				System.out.println("Takove cislo muze existovat");
 //				}
 //			else 	

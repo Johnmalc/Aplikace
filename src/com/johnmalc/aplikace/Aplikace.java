@@ -77,15 +77,10 @@ public class Aplikace extends JFrame {
 		/**
 		 * Launch the application.
 		 */
-			/**
-			 * @param args
-			 */
-			
 			public static void main(String[] args) {
 			
 			/**
 			 * Windows Look and Feel (generated try & catch by Eclipse)
-			 * 
 			 */ 
 			try {
 				UIManager.setLookAndFeel(new WindowsLookAndFeel());
@@ -93,7 +88,9 @@ public class Aplikace extends JFrame {
 				e1.printStackTrace();
 			}
 			
-			// from setup, DONT change 
+			/** 
+			 *  from setup, DONT change 
+			 */	
 			EventQueue.invokeLater(new Runnable() {
 				public void run() {
 					try {
@@ -156,13 +153,17 @@ public class Aplikace extends JFrame {
 		            System.out.println("Could not load tray icon !");
 		        }
 		       		 		       
-		        // Continue/Simulate long running application code
+		        /**
+		         *  Continue/Simulate long running application code
+		         */
 		        try {
 		            java.lang.Thread.sleep(1000 * 5);
 		        } catch (Exception e) {
 		        }		 
 		        
-		        // remove the icon.  Task is done.
+		        /**
+		         *  remove the icon.  Task is done.
+		         */
 		        tray.remove(trayIcon);
 		    }
 		 
@@ -178,7 +179,6 @@ public class Aplikace extends JFrame {
 			 *  Icons for application (32*32 px (optinal) taskbar icon and 16*16 for topleft icon)
 			 */
 			setIconImage(Toolkit.getDefaultToolkit().getImage(Aplikace.class.getResource("/res/conrad.png")));
-			
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			setSize(521, 341); // custom size due to rezing (width and lenght)
 			contentPane = new JPanel();
@@ -235,7 +235,6 @@ public class Aplikace extends JFrame {
 		}
 		
 		/**
-		*
 		*	Button for Exit
 		*/ 
 		private JButton getBtnExit() {
@@ -254,7 +253,6 @@ public class Aplikace extends JFrame {
 		
 		/**
 		 *  left text area for input numbers
-		 * @return
 		 */
 		private JTextArea getLeftTextArea() {
 			if (LeftTextArea == null) {
@@ -268,7 +266,6 @@ public class Aplikace extends JFrame {
 		
 		  /**
 		   *  right text area for output (connection est./not-est. & checking numbers)
-		   * @return
 		   */
 		private JTextArea getRightTextArea() { 
 			if (RightTextArea == null) {

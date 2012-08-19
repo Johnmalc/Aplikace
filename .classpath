@@ -20,6 +20,11 @@
 	<classpathentry exported="true" kind="lib" path="C:/Users/Dima/Desktop/eclipse/plugins/org.eclipse.ui.workbench_3.103.0.v20120530-1824.jar" sourcepath="C:/Users/Dima/Desktop/eclipse/plugins/org.eclipse.ui.workbench_3.103.0.v20120530-1824.jar"/>
 	<classpathentry exported="true" kind="lib" path="C:/Users/Dima/Desktop/eclipse/plugins/com.ibm.icu_4.4.2.v20110823.jar" sourcepath="C:/Users/Dima/Desktop/eclipse/plugins/com.ibm.icu_4.4.2.v20110823.jar"/>
 	<classpathentry exported="true" kind="lib" path="C:/Users/Dima/Desktop/eclipse/plugins/org.eclipse.ui.forms_3.5.200.v20120521-2329.jar" sourcepath="C:/Users/Dima/Desktop/eclipse/plugins/org.eclipse.ui.forms_3.5.200.v20120521-2329.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jre7"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jre7"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dima/html parser for java/jsoup-1.6.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dima/Apache Commons/commons-codec-1.6/commons-codec-1.6.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dima/Apache Commons/commons-collections-3.2.1/commons-collections-3.2.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dima/Apache Commons/commons-io-2.4/commons-io-2.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dima/Apache Commons/commons-logging-1.1.1/commons-logging-1.1.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
