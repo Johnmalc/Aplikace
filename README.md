@@ -19,6 +19,27 @@ For future (potential TODO)
 
 # Changelog - "huge diary" #
 
+**1.4 "NOT finished"**
+- httpclient ale nechat to kde se to zapisuje. != http://www.xxx.cz/vyrobek-nenalezen
+Toto si potreboval? Pokud chces zadavat vic cisel (rucne), das to do smycky. A program ukoncis napriklad stiskem enteru bez zadaneho textu. Takze napr.:
+
+> do{
+> ...
+> } while(!retezec.equals("")};
+> 
+> K dalsi otazce:
+> E-shop rozeznava, zda se vyhledava vyrobek nebo fulltext - proto dve stranky. Pokud zadas cislo vyrobku, e-shop bude hledat pouze v cische vyrobku. Pokud zadny nenajde (resp. pokud je vyrobek nastaven jako neaktivni), zobrazi Vyrobek neexistuje. Pokud se ale hleda fulltextem, pak je to zase ze hledany vyraz nebyl nalezen.
+> 
+> V tuto chvili plati, ze cislo je cislem vyrobku, pokud se zada sestimistny retezec obsahujici pouze cisla (tzn. [0-9]{6}). Bude se to ale zanedlouho menit. Varianty jsou rozsireni na 8 nebo zacleneni alfanumerickych znaku.
+> Takze v tuto chvili to muzes rozlisovat: odpovida zadany text regularnimu vyrazu [0-9]{6} ? pokud ne, nemusis dal pokracovat. Pokud ano, zkus zadat url adresu:
+> http://www.xxx.cz/<[0-9]{6}(tot je rychlejsi zapis). Pokud dostanes "Vyrobek nenalezen", pak vyrobek > neexistuje. Jinak muzes prohlasit, ze vyrobek existuje.
+> Nemusis se snazit zjistit, zda stranka je "Vyrobek nenalezen". Bez na to opacne a zjistuj, zda vyrobek je nalezen. V takovem pripade server presmeruje na spravnou url adresu vyrobku, ktery ma tvar nazvu vyrobku ".k" cislo vyrobku (nemusi se shodovat se zadanym).
+> K tomuto reseni nemusis ani cist celou stranku, ale pouze hlavicky odpovedi, a vsechny se ohodne zrychli.
+> 
+
+
+
+
 
 **1.3 "Nocona"**
 

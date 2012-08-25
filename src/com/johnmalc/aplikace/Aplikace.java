@@ -141,7 +141,7 @@ public class Aplikace extends JFrame {
 		        /**
 		         *  Add tooltip and menu to trayicon
 		         */
-		        trayIcon.setToolTip("Conrad aplikace");
+		        trayIcon.setToolTip("Aplikace");
 		        trayIcon.setPopupMenu(popup);
 		 
 		        /**
